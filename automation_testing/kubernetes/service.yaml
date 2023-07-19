@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: automation_testing
+  labels:
+    app: automation_testing
+  name: automation_testing
+spec:
+  ports:
+  
+    - protocol: TCP
+      port: 1234
+      targetPort: 1234
+   
+   
+  selector:
+    app: automation_testing
+  type: ClusterIP

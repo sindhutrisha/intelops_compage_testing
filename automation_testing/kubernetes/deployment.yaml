@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: automation_testing
+  name: automation_testing
+  labels:
+    app: automation_testing
+spec:
+  selector:
+    matchLabels:
+      app: automation_testing
+  template:
+    metadata:
+      labels:
+        app: automation_testing
+        name: automation_testing
+    spec:
+      containers:
+        - name: automation_testing
+          image: sindhutrisha/intelops_compage_testing/automation_testing
+          imagePullPolicy: Always
+        
+          env:
+            - name: SERVICE_NAME
+              value: "go-app"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "localhost:4317"
+            - name: INSECURE_MODE
+              value: "true"
+        
+          ports:
+        
+        
+          - containerPort: 1234
+            name: http
+        
+        
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 30
+        

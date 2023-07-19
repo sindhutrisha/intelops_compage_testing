@@ -1,0 +1,4 @@
+automation_testing
+../.idea
+.devspace
+/sqlite.db
