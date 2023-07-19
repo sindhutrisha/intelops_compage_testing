@@ -17,10 +17,10 @@ func migrateData(r *sqls.SQLiteClient) error {
 	CREATE TABLE IF NOT EXISTS data(
 		Id INTEGER PRIMARY KEY AUTOINCREMENT,
         
+		Verified INTEGER NOT NULL,
 		Age TEXT NOT NULL,
 		Name TEXT NOT NULL,
 		Total REAL NOT NULL,
-		Verified INTEGER NOT NULL,
         CONSTRAINT id_unique_key UNIQUE (Id)
 	)
 	`
@@ -43,8 +43,8 @@ func NewDataDao() (*DataDao, error) {
 }
 
 func (dataDao *DataDao) CreateData(m *models.Data) (*models.Data, error) {
-	insertQuery := "INSERT INTO data(Age, Name, Total, Verified)values(?, ?, ?, ?)"
-	res, err := dataDao.sqlClient.DB.Exec(insertQuery, m.Age, m.Name, m.Total, m.Verified)
+	insertQuery := "INSERT INTO data(Verified, Age, Name, Total)values(?, ?, ?, ?)"
+	res, err := dataDao.sqlClient.DB.Exec(insertQuery, m.Verified, m.Age, m.Name, m.Total)
 	if err != nil {
 		return nil, err
 	}
@@ -74,8 +74,8 @@ func (dataDao *DataDao) UpdateData(id int64, m *models.Data) (*models.Data, erro
 		return nil, sql.ErrNoRows
 	}
 
-	updateQuery := "UPDATE data SET Age = ?, Name = ?, Total = ?, Verified = ? WHERE Id = ?"
-	res, err := dataDao.sqlClient.DB.Exec(updateQuery, m.Age, m.Name, m.Total, m.Verified, id)
+	updateQuery := "UPDATE data SET Verified = ?, Age = ?, Name = ?, Total = ? WHERE Id = ?"
+	res, err := dataDao.sqlClient.DB.Exec(updateQuery, m.Verified, m.Age, m.Name, m.Total, id)
 	if err != nil {
 		return nil, err
 	}
@@ -121,7 +121,7 @@ func (dataDao *DataDao) ListData() ([]*models.Data, error) {
 	var data []*models.Data
 	for rows.Next() {
 		m := models.Data{}
-		if err = rows.Scan(&m.Id, &m.Age, &m.Name, &m.Total, &m.Verified); err != nil {
+		if err = rows.Scan(&m.Id, &m.Verified, &m.Age, &m.Name, &m.Total); err != nil {
 			return nil, err
 		}
 		data = append(data, &m)
@@ -138,7 +138,7 @@ func (dataDao *DataDao) GetData(id int64) (*models.Data, error) {
 	selectQuery := "SELECT * FROM data WHERE Id = ?"
 	row := dataDao.sqlClient.DB.QueryRow(selectQuery, id)
 	m := models.Data{}
-	if err := row.Scan(&m.Id, &m.Age, &m.Name, &m.Total, &m.Verified); err != nil {
+	if err := row.Scan(&m.Id, &m.Verified, &m.Age, &m.Name, &m.Total); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, sqls.ErrNotExists
 		}

@@ -2,34 +2,34 @@
 
 
     
-# Curl commands for REST Server resource Data
+# Curl commands for REST Server resource Unique
 # Post
 curl -X POST -H "Content-Type: application/json" \
--d '{"Age": defaultValue,"Name": "sample string","Total": 1,"Verified": true}' \
-http://localhost:1234/v1/data
+-d '{"Unique": "sample string","Verified": true,"Age": defaultValue}' \
+http://localhost:4477/v1/uniques
 
 # Get
 curl -X GET -H "Content-Type: application/json" \
-http://localhost:1234/v1/data
+http://localhost:4477/v1/uniques
 
 # Put
 curl -X PUT -H "Content-Type: application/json" \
--d '{"Id": 123,"Verified": true,"Age": defaultValue,"Name": "sample string","Total": 1}' \
-http://localhost:1234/v1/data/123
+-d '{"Id": 123,"Age": defaultValue,"Unique": "sample string","Verified": true}' \
+http://localhost:4477/v1/uniques/123
 
 # Put
 ### wrong id passed in param
 curl -X PUT -H "Content-Type: application/json" \
--d '{"Id": 123,"Verified": true,"Age": defaultValue,"Name": "sample string","Total": 1}' \
-http://localhost:1234/v1/data/1234
+-d '{"Id": 123,"Age": defaultValue,"Unique": "sample string","Verified": true}' \
+http://localhost:4477/v1/uniques/1234
 
-# Get  (retrieve specific Data)
+# Get  (retrieve specific Unique)
 curl -X GET -H "Content-Type: application/json" \
-http://localhost:1234/v1/data/123
+http://localhost:4477/v1/uniques/123
 
 # Delete
 curl -X DELETE -H "Content-Type: application/json" \
-http://localhost:1234/v1/data/123
+http://localhost:4477/v1/uniques/123
 
     
 

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: code
+  labels:
+    app: code
+  name: code
+spec:
+  ports:
+  
+    - protocol: TCP
+      port: 4477
+      targetPort: 4477
+   
+   
+  selector:
+    app: code
+  type: ClusterIP
